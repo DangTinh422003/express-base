@@ -16,10 +16,7 @@ class Database {
     }
 
     mongoose
-      .connect(connectionString, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      })
+      .connect(connectionString)
       .then(() => {
         console.log("Database connection successful");
       })
@@ -36,5 +33,4 @@ class Database {
   }
 }
 
-const instanceMongodb = Database.getInstance();
-export default instanceMongodb;
+export const instanceDb = Database.getInstance();
