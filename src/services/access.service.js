@@ -35,23 +35,8 @@ class AccessService {
       });
 
       if (newShop) {
-        // const { privateKey, publicKey } = crypto.generateKeyPairSync("rsa", {
-        //   modulusLength: 4096,
-        //   publicKeyEncoding: {
-        //     type: "pkcs1",
-        //     format: "pem",
-        //   },
-        //   privateKeyEncoding: {
-        //     type: "pkcs1",
-        //     format: "pem",
-        //   },
-        // });
-        const privateKey = crypto
-          .getRandomValues(new Uint8Array(32))
-          .toString("hex");
-        const publicKey = crypto
-          .getRandomValues(new Uint8Array(32))
-          .toString("hex");
+        const privateKey = crypto.randomBytes(64).toString("hex");
+        const publicKey = crypto.randomBytes(64).toString("hex");
 
         const keyStore = await keyTokenService.createKeyToken({
           userId: newShop._id,
@@ -73,8 +58,8 @@ class AccessService {
             email: newShop.email,
             roles: newShop.roles,
           },
-          publicKey,
-          privateKey
+          keyStore.publicKey,
+          keyStore.privateKey
         );
 
         console.log({ accessToken, refreshToken });
