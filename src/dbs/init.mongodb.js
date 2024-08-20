@@ -1,24 +1,21 @@
 "use strict";
 import mongoose from "mongoose";
+import config from "../configs/mongodb.config.js";
 
-const connectionString = "mongodb://localhost:27017/showDEV";
+const connectionString = `mongodb://${config.db.host}:${config.db.port}/${config.db.name}`;
 
 class Database {
+  instance = null;
+
   constructor() {
     this.connect();
   }
 
   connect(type = "mongodb") {
-    if (1 === 1) {
-      mongoose.set("debug", {
-        color: true,
-      });
-    }
-
     mongoose
       .connect(connectionString)
       .then(() => {
-        console.log("Database connection successful");
+        console.log("Database connection successful:::", config.db.name);
       })
       .catch((error) => {
         console.error("Database connection error", error);

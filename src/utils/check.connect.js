@@ -16,7 +16,7 @@ export const checkOverload = () => {
     const memoryUsage = process.memoryUsage();
 
     const maxConnection = numberCores * 5;
-    if (counter === 1) {
+    if (counter === maxConnection) {
       console.warn(`Number of connections: ${counter}`);
       console.warn(`Number of cores: ${numberCores}`);
       console.warn(`Memory usage: ${JSON.stringify(memoryUsage)}`);
