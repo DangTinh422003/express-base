@@ -36,6 +36,14 @@ class AccessService {
       if (newShop) {
         const { privateKey, publicKey } = crypto.generateKeyPairSync("rsa", {
           modulusLength: 4096,
+          publicKeyEncoding: {
+            type: "pkcs1",
+            format: "pem",
+          },
+          privateKeyEncoding: {
+            type: "pkcs1",
+            format: "pem",
+          },
         });
 
         const publicKeyString = await keyTokenService.createKeyToken({
@@ -57,7 +65,7 @@ class AccessService {
             email: newShop.email,
             roles: newShop.roles,
           },
-          publicKey,
+          publicKeyString,
           privateKey
         );
 
