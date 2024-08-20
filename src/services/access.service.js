@@ -35,24 +35,31 @@ class AccessService {
       });
 
       if (newShop) {
-        const { privateKey, publicKey } = crypto.generateKeyPairSync("rsa", {
-          modulusLength: 4096,
-          publicKeyEncoding: {
-            type: "pkcs1",
-            format: "pem",
-          },
-          privateKeyEncoding: {
-            type: "pkcs1",
-            format: "pem",
-          },
-        });
+        // const { privateKey, publicKey } = crypto.generateKeyPairSync("rsa", {
+        //   modulusLength: 4096,
+        //   publicKeyEncoding: {
+        //     type: "pkcs1",
+        //     format: "pem",
+        //   },
+        //   privateKeyEncoding: {
+        //     type: "pkcs1",
+        //     format: "pem",
+        //   },
+        // });
+        const privateKey = crypto
+          .getRandomValues(new Uint8Array(32))
+          .toString("hex");
+        const publicKey = crypto
+          .getRandomValues(new Uint8Array(32))
+          .toString("hex");
 
-        const publicKeyString = await keyTokenService.createKeyToken({
+        const keyStore = await keyTokenService.createKeyToken({
           userId: newShop._id,
           publicKey,
+          privateKey,
         });
 
-        if (!publicKeyString) {
+        if (!keyStore) {
           return {
             code: "xxx",
             message: "Error when create publicKey",
@@ -66,7 +73,7 @@ class AccessService {
             email: newShop.email,
             roles: newShop.roles,
           },
-          publicKeyString,
+          publicKey,
           privateKey
         );
 
