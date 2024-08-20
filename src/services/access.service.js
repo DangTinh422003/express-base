@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { shopModel } from "../models/shop.model.js";
 import { keyTokenService } from "./keyToken.service.js";
 import { createTokenPair } from "../auth/authUtils.js";
+import { getInfoData } from "../utils/index.js";
 
 const RoleShop = {
   SHOP: "shop",
@@ -75,7 +76,10 @@ class AccessService {
           code: 201,
           message: "Shop created successfully",
           metadata: {
-            shop: newShop,
+            shop: getInfoData({
+              fields: ["_id", "name", "email", "roles"],
+              object: newShop,
+            }),
             tokens: {
               accessToken,
               refreshToken,
